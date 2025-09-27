@@ -12,7 +12,7 @@ public class BulkInsertHelper(IOptions<FileProcessingOptions> options) : IBulkIn
 
     public async Task BulkInsertBoxesAsync(
         SqlConnection connection,
-        IEnumerable<Box> boxes,
+        IEnumerable<BoxEntity> boxes,
         SqlTransaction? transaction = null)
     {
         using var bulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.TableLock, transaction);
@@ -32,7 +32,7 @@ public class BulkInsertHelper(IOptions<FileProcessingOptions> options) : IBulkIn
 
     public async Task BulkInsertContentsAsync(
         SqlConnection connection,
-        IEnumerable<Content> contents,
+        IEnumerable<ContentEntity> contents,
         SqlTransaction? transaction = null)
     {
         using var bulkCopy = new SqlBulkCopy(connection, SqlBulkCopyOptions.TableLock, transaction);

@@ -34,11 +34,6 @@ public class BoxBatcher(IOptions<FileProcessingOptions> options) : IBoxBatcher
         });
     }
 
-    public IReadOnlyList<Box> GetCurrentBatch()
-    {
-        return _boxes;
-    }
-
     public bool BatchIsFull => _boxes.Count >= _options.BoxCountInRam;
 
     public IReadOnlyList<Box> FinalizeBatch()
@@ -49,19 +44,12 @@ public class BoxBatcher(IOptions<FileProcessingOptions> options) : IBoxBatcher
         return batch;
     }
 
-    public IReadOnlyList<Box> FlushRemaining()
-    {
-        FinalizeCurrentBox();
-        var remaining = _boxes.ToList();
-        _boxes.Clear();
-        return remaining;
-    }
-
     private void FinalizeCurrentBox()
     {
         if (_currentBox == null) return;
         _currentBox.Contents = new List<Content>(_contents);
         _boxes.Add(_currentBox);
         _currentBox = null;
+        _contents.Clear();       
     }
 }

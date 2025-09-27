@@ -6,7 +6,7 @@ namespace BigFileProcessor.Infrastructure.Database;
 
 public class BoxRepository(ISqlConnectionFactory connectionFactory, IBulkInsertHelper bulkInsertHelper) : IBoxRepository
 {
-    public async Task BulkSaveAsync(IReadOnlyList<Box> boxes)
+    public async Task BulkSaveAsync(IReadOnlyList<BoxEntity> boxes)
     {
         await using var connection = connectionFactory.CreateConnection();
         await connection.OpenAsync();
@@ -25,7 +25,7 @@ public class BoxRepository(ISqlConnectionFactory connectionFactory, IBulkInsertH
         }
     }
 
-    private async Task SaveBoxesToDb(IReadOnlyList<Box> boxes, SqlConnection connection, SqlTransaction? transaction)
+    private async Task SaveBoxesToDb(IReadOnlyList<BoxEntity> boxes, SqlConnection connection, SqlTransaction? transaction)
     {
         var batchStartBoxId = await GetBatchStartId(connection, transaction, "Boxes");
         var batchStartContentId = await GetBatchStartId(connection, transaction, "Contents");
@@ -36,7 +36,7 @@ public class BoxRepository(ISqlConnectionFactory connectionFactory, IBulkInsertH
         await bulkInsertHelper.BulkInsertContentsAsync(connection, boxes.SelectMany(b => b.Contents), transaction);
     }
 
-    private static void SetPrimaryKeys(IReadOnlyList<Box> boxes, long batchStartBoxId, long batchStartContentId)
+    private static void SetPrimaryKeys(IReadOnlyList<BoxEntity> boxes, long batchStartBoxId, long batchStartContentId)
     {
         var currentBoxId = batchStartBoxId;
         var currentContentId = batchStartContentId;

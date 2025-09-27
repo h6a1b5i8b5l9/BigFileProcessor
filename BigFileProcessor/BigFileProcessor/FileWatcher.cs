@@ -19,12 +19,12 @@ public class FileWatcher(IBoxImportOrchestrator importOrchestrator, IFileService
             EnableRaisingEvents = true,
             NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite
         };
-        _watcher.Created += OnNewFile;
+        _watcher.Created += async (s, e) => await OnNewFile(e);
     }
 
-    private async void OnNewFile(object sender, FileSystemEventArgs e)
+    private Task OnNewFile(FileSystemEventArgs e)
     {
-        await ProcessFile(e.FullPath);
+        return ProcessFile(e.FullPath);
     }
 
     private async Task ProcessFile(string fileFullPath)

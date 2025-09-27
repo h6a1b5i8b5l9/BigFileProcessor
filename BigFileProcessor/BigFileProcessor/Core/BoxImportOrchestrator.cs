@@ -34,7 +34,7 @@ public class BoxImportOrchestrator(
                     break;
             }
 
-        var remaining = batcher.FlushRemaining();
+        var remaining = batcher.FinalizeBatch();
         await saver.SaveFinalAsync(remaining, checkpoint);
     }
 }

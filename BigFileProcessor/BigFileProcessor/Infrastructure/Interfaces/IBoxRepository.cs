@@ -4,5 +4,5 @@ namespace BigFileProcessor.Infrastructure.Interfaces;
 
 public interface IBoxRepository
 {
-    Task BulkSaveAsync(IReadOnlyList<Box> boxes);
+    Task BulkSaveAsync(IReadOnlyList<BoxEntity> boxes);
 }

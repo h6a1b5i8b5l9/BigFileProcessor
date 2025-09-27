@@ -7,11 +7,11 @@ public interface IBulkInsertHelper
 {
     Task BulkInsertBoxesAsync(
         SqlConnection connection,
-        IEnumerable<Box> boxes,
+        IEnumerable<BoxEntity> boxes,
         SqlTransaction? transaction = null);
 
     Task BulkInsertContentsAsync(
         SqlConnection connection,
-        IEnumerable<Content> contents,
+        IEnumerable<ContentEntity> contents,
         SqlTransaction? transaction = null);
 }

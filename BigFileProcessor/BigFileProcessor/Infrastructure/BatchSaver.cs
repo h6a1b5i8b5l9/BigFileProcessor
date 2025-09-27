@@ -1,5 +1,6 @@
 ﻿using BigFileProcessor.Core;
 using BigFileProcessor.Core.Interfaces;
+using BigFileProcessor.Infrastructure.Database;
 using BigFileProcessor.Infrastructure.Interfaces;
 
 namespace BigFileProcessor.Infrastructure;
@@ -10,7 +11,7 @@ public class BatchSaver(IBoxRepository boxRepository, ICheckpointManager checkpo
     {
         if (batch.Count == 0) return;
 
-        await boxRepository.BulkSaveAsync(batch);
+        await boxRepository.BulkSaveAsync(batch.ToEntities());
         checkpoint.LastProcessedLine = lineNumber;
         await checkpointManager.SaveAsync(checkpoint);
     }
@@ -19,7 +20,7 @@ public class BatchSaver(IBoxRepository boxRepository, ICheckpointManager checkpo
     {
         if (batch.Count == 0) return;
 
-        await boxRepository.BulkSaveAsync(batch);
-        await checkpointManager.DeleteAsync(checkpoint.FileName);
+        await boxRepository.BulkSaveAsync(batch.ToEntities());
+        await checkpointManager.DeleteAsync(checkpoint.FileName); 
     }
 }
