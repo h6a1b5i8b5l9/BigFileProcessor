@@ -5,6 +5,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{A1A29AB1-10C2-493A-B8E8-0F8C4C9B5619}"
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
+		..\compose.yaml = ..\compose.yaml
 	EndProjectSection
 EndProject
 Global
