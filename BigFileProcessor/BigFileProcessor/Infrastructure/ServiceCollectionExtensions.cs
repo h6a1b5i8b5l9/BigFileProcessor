@@ -22,6 +22,7 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<ISqlConnectionFactory, SqlConnectionFactory>();
         services.AddTransient<IBoxRepository, BoxRepository>();
         services.AddTransient<IBulkInsertHelper, BulkInsertHelper>();
+        services.AddTransient<DatabaseInitializer>();       
     }
 
     private static void AddFileSystemServices(this IServiceCollection services)

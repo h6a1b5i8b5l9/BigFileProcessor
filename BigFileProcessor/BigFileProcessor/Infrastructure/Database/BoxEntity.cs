@@ -2,7 +2,7 @@
 
 public class BoxEntity
 {
-    public const string TableName = "dbo.Box";
+    public const string TableName = "Box";
 
     public long Id { get; set; }
     public required string SupplierIdentifier { get; init; }

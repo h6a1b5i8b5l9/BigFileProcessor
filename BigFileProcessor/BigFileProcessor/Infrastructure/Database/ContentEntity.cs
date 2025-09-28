@@ -2,7 +2,7 @@
 
 public class ContentEntity
 {
-    public const string TableName = "dbo.Content";
+    public const string TableName = "Content";
     
     public long Id { get; set; }
     public required string PoNumber { get; init; }
