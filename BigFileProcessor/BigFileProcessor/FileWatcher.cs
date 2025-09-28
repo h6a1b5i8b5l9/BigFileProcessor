@@ -9,7 +9,6 @@ public class FileWatcher(IBoxImportOrchestrator importOrchestrator, IFileService
     private readonly SemaphoreSlim _semaphore = new(1, 1);
     private FileSystemWatcher? _watcher;
 
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         foreach (var file in Directory.GetFiles(paths.WatchPath)) await ProcessFile(file);
@@ -19,12 +18,12 @@ public class FileWatcher(IBoxImportOrchestrator importOrchestrator, IFileService
             EnableRaisingEvents = true,
             NotifyFilter = NotifyFilters.FileName | NotifyFilters.LastWrite
         };
-        _watcher.Created += async (s, e) => await OnNewFile(e);
+        _watcher.Created += async (_, systemEventArgs) => await OnNewFile(systemEventArgs);
     }
 
-    private Task OnNewFile(FileSystemEventArgs e)
+    private Task OnNewFile(FileSystemEventArgs systemEventArgs)
     {
-        return ProcessFile(e.FullPath);
+        return ProcessFile(systemEventArgs.FullPath);
     }
 
     private async Task ProcessFile(string fileFullPath)
@@ -45,6 +44,7 @@ public class FileWatcher(IBoxImportOrchestrator importOrchestrator, IFileService
         finally
         {
             GC.Collect();
+            
             _semaphore.Release();
         }
     }

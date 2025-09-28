@@ -1,5 +1,4 @@
-﻿using BigFileProcessor.Core;
-using BigFileProcessor.Infrastructure.Interfaces;
+﻿using BigFileProcessor.Infrastructure.Interfaces;
 using Microsoft.Data.SqlClient;
 
 namespace BigFileProcessor.Infrastructure.Database;
@@ -25,10 +24,11 @@ public class BoxRepository(ISqlConnectionFactory connectionFactory, IBulkInsertH
         }
     }
 
-    private async Task SaveBoxesToDb(IReadOnlyList<BoxEntity> boxes, SqlConnection connection, SqlTransaction? transaction)
+    private async Task SaveBoxesToDb(IReadOnlyList<BoxEntity> boxes, SqlConnection connection,
+        SqlTransaction? transaction)
     {
-        var batchStartBoxId = await GetBatchStartId(connection, transaction, "Boxes");
-        var batchStartContentId = await GetBatchStartId(connection, transaction, "Contents");
+        var batchStartBoxId = await GetBatchStartId(connection, transaction, BoxEntity.TableName);
+        var batchStartContentId = await GetBatchStartId(connection, transaction, ContentEntity.TableName);
 
         SetPrimaryKeys(boxes, batchStartBoxId, batchStartContentId);
 
@@ -61,6 +61,6 @@ public class BoxRepository(ISqlConnectionFactory connectionFactory, IBulkInsertH
         await using var cmd = new SqlCommand(sql, connection, transaction);
         var maxId = (long)(await cmd.ExecuteScalarAsync())!;
 
-        return maxId + 1;
+        return ++maxId;
     }
 }
