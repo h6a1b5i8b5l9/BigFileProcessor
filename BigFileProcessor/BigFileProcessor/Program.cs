@@ -8,7 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
 var host = Host.CreateDefaultBuilder(args)
-    .ConfigureAppConfiguration(config => { config.AddJsonFile("appsettings.json", false, true); })
+    .ConfigureAppConfiguration(config => { config.SetBasePath(AppContext.BaseDirectory)
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true); })
     .ConfigureServices(services =>
     {
         services.AddApplicationOptions();

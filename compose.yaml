@@ -11,5 +11,15 @@ services:
       - sqlserver_data:/var/opt/mssql
     restart: unless-stopped
 
+  sql-init:
+    image: mcr.microsoft.com/mssql-tools:latest
+    depends_on:
+      - sqlserver
+    entrypoint: >
+      /bin/bash -c "
+      sleep 20;
+      /opt/mssql-tools/bin/sqlcmd -S sqlserver -U sa -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE BigFileProcessorDb'
+      "
+
 volumes:
   sqlserver_data:

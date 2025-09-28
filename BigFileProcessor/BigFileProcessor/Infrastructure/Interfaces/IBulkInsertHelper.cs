@@ -1,5 +1,4 @@
-﻿using BigFileProcessor.Core;
-using BigFileProcessor.Infrastructure.Database;
+﻿using BigFileProcessor.Infrastructure.Database;
 using Microsoft.Data.SqlClient;
 
 namespace BigFileProcessor.Infrastructure.Interfaces;
